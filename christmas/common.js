@@ -5,8 +5,28 @@
 /**
  *  Lekérjük a tableselectort, és regisztrálunk egy change eseménykezelőt!
  */
+const div = document.getElementById('tableselector');
+div.addEventListener('change', valtozas)
+function valtozas(event){
+    const tableJS = document.getElementById('jssection');
+    const tableHTML = document.getElementById('htmlsection');
+    /**
+     * @type {HTMLInputElement}
+     */
+    const target = event.target;
+    console.log(target);
 
-
+    if (target.checked){
+        if (target.value == 'jssection'){
+            tableJS.classList.remove('hide');
+            tableHTML.classList.add('hide');
+        }
+        else {
+            tableJS.classList.add('hide');
+            tableHTML.classList.remove('hide');
+        }
+    }
+}
 
 /**
  * Ez a függvény a javascript legvégén fut le, amikor már minden elem betöltött.
