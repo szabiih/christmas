@@ -71,3 +71,75 @@ const form = [
         optionList: [{value: '1', label: 'Délelöttös'}, {value: '2', label: 'Délutános'}, {value: '3', label: 'Éjszakai'}]
     }
 ];
+
+/**
+ * Létrehoz egy div tag-et és hozzáfűzi a body-hoz.
+ * @param {string} id 
+ * @param {boolean} hidden 
+ * @returns {HTMLDivElement}
+ */
+function createDiv(id, hidden){
+    const div = document.createElement('div');
+    div.id = id;
+
+    if (hidden == true){
+        div.classList.add('hide');
+    }
+
+    document.body.appendChild(div);
+
+    return div;
+}
+
+/**
+ * Létrehoz egy táblázat cellát (td / th).
+ * @param {'td'|'th'} cellType 
+ * @param {string} text 
+ * @param {HTMLTableRowElement} parentRow 
+ * @returns {HTMLTableCellElement}
+ */
+function createCell(cellType, text, parentRow){
+    const cell = document.createElement(cellType);
+    cell.innerText = text;
+    parentRow.appendChild(cell);
+
+    return cell;
+}
+
+/**
+ * Létrehozza egy táblázat fejlécét.
+ * @param {HTMLTableElement} table 
+ * @param {string[]} headerList 
+ * @returns {HTMLTableSectionElement}
+ */
+function generateHeader(table, headerList){
+    const thead = document.createElement('thead');
+    table.appendChild(thead);
+
+    const tr = document.createElement('tr');
+    thead.appendChild(tr);
+
+    for (const data of headerList){
+        createCell('th', data, tr);
+    }
+
+    return thead;
+}
+
+/**
+ * Létrehoz egy táblázatot (thead + tbody).
+ * @param {string[]} headerList 
+ * @param {string} tbodyId 
+ * @returns {HTMLTableElement}
+ */
+function generateTable(headerList, tbodyId){
+    const table = document.createElement('table');
+    generateHeader(table, headerList);
+
+    const tbody = document.createElement('tbody');
+    tbody.id = tbodyId;
+    table.appendChild(tbody);
+
+    return table;
+}
+
