@@ -39,7 +39,17 @@ function valtozas(event){
  * @returns {void}
  */
 function initCheckbox(checkboxElem){
+    changeCheckboxValue(checkboxElem);
 
+    checkboxElem.addEventListener('change', function(event){
+        /**
+         * @type {HTMLInputElement}
+         */
+        const target = event.target;
+        console.log(target);
+
+        changeCheckboxValue(target);
+    });
 }
 
 /**
@@ -55,7 +65,23 @@ function initCheckbox(checkboxElem){
  * @returns {void}
  */
 function changeCheckboxValue(checkbox){
+    /**
+     * @type {HTMLInputElement}
+     */
+    const inputMano2 = checkbox.parentElement.parentElement.querySelector('#mano2');
+    /**
+     * @type {HTMLSelectElement}
+     */
+    const selectMuszak2 = checkbox.parentElement.parentElement.querySelector('#muszak2');
 
+    if (checkbox.checked == true){
+        inputMano2.disabled = false;
+        selectMuszak2.disabled = false;
+    }
+    else {
+        inputMano2.disabled = true;
+        selectMuszak2.disabled = true;
+    }
 }
 
 /**
@@ -89,6 +115,14 @@ function initSelect(arr) {
     const select = getSelectElement();
     select.innerHTML = '';
     createoption(select, "Válassz Manót!"); // ez a függvény még nincs implementálva, görgess lejjebb
+
+    for (const mano of arr){
+        createoption(select, mano.who1, mano.who1);
+
+        if (mano.who2 != undefined){        //  lehet nem elég jó a feltétel
+            createoption(select, mano.who2, mano.who2);
+        }
+    }
 }
 
 /**
@@ -100,7 +134,13 @@ function initSelect(arr) {
  * @returns {void}
  */
 function createoption(selectElement, label, value = "") {
-
+    /**
+     * @type {HTMLOptionElement}
+     */
+    const option = document.createElement('option');
+    option.innerText = label;
+    option.value = value;
+    selectElement.appendChild(option);
 }
 
 /**
@@ -123,6 +163,11 @@ function createoption(selectElement, label, value = "") {
  * @returns {void}
  */
 function createNewElement(obj, form, array) {
+    const select = getSelectElement();
+    createoption(select, obj.who1, obj.who1);
+    if (obj.who2 != undefined){                 //  lehet nem elég jó a feltétel
+        createoption(select, obj.who2, obj.who2);
+    }
 
     // ez egy ismerős rész, ehhez nem kell nyúlni
     array.push(obj);
@@ -130,6 +175,8 @@ function createNewElement(obj, form, array) {
     form.reset();
     // ismerős rész vége
 
+    const checkbox = form.querySelector('#masodikmano');
+    changeCheckboxValue(checkbox);
 }
 
 /**
@@ -147,5 +194,14 @@ function createNewElement(obj, form, array) {
  */
 function mapMuszak(muszakValue){
     console.log(muszakValue);
+    if (muszakValue == "1") {
+        return "Délelöttös";
+    }
+    else if  (muszakValue == "2") {
+        return "Délutános";
+    }
+    else if (muszakValue == "3") {
+        return "Éjszakai";
+    }
     return muszakValue;
 }
